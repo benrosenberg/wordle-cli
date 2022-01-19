@@ -21,12 +21,12 @@ if len(sys.argv) == 2:
         sys.exit(1)
 
 with open('words_alpha.txt', 'r') as f:
-    all_words = [l[:-1] for l in f.readlines()]
+    all_words = set([l[:-1] for l in f.readlines()])
 
 with open('5k.txt', 'r') as f: # source: https://github.com/mahsu/IndexingExercise/blob/master/5000-words.txt
-    common_words = [l[:-1] for l in f.readlines()]
+    common_words = set([l[:-1] for l in f.readlines()])
 
-n_letters = [w for w in common_words if len(w) == n and w[0].islower()] # contains \n at the end
+n_letters = set([w for w in common_words if len(w) == n and w[0].islower()]) # contains \n at the end
 
 # print(len(five_letters)) # 832
 
