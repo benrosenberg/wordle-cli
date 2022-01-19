@@ -5,7 +5,7 @@ Wordle puzzles in the command line.
 
 Run with `wordle.py [number of letters]`. If `number of letters` is not specified the default is `5`.
 
-Screenshot: [screenshot.png]
+Example: [carbon.png]
 
 ## todo
  - [x] variable-length games
