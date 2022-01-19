@@ -1,5 +1,12 @@
 # wordle-cli
-wordle puzzles in the command line. 
+Wordle puzzles in the command line. 
+
+## how-to
+
+Run with `wordle.py [number of letters]`. If `number of letters` is not specified the default is `5`.
+
+Screenshot: [screenshot.png]
 
 ## todo
- - [ ] variable-length games
+ - [x] variable-length games
+
