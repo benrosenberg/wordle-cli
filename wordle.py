@@ -2,8 +2,23 @@
 
 import random
 import re
+import sys
+from tempfile import TemporaryFile
 
-# six tries to get 5-letter word 
+# six tries to get n-letter word 
+
+n = 5
+if len(sys.argv) == 2:
+    try:
+        n = int(sys.argv[1])
+        if n < 4 or n > 10:
+            print('ERROR: For the betterment of your experience,\n'  +
+                  'this implementation of Wordle prefers that you\n' +
+                  'stick with word lengths between 4 and 10 letters.')
+            sys.exit(1)
+    except ValueError:
+        print('ERROR: Supplied word length invalid.')
+        sys.exit(1)
 
 with open('words_alpha.txt', 'r') as f:
     all_words = [l[:-1] for l in f.readlines()]
@@ -11,18 +26,18 @@ with open('words_alpha.txt', 'r') as f:
 with open('5k.txt', 'r') as f: # source: https://github.com/mahsu/IndexingExercise/blob/master/5000-words.txt
     common_words = [l[:-1] for l in f.readlines()]
 
-five_letters = [w for w in common_words if len(w) == 5 and w[0].islower()] # contains \n at the end
+n_letters = [w for w in common_words if len(w) == n and w[0].islower()] # contains \n at the end
 
 # print(len(five_letters)) # 832
 
-word = random.choice(five_letters).upper()
+word = random.choice(n_letters).upper()
 
 def valid(attempt):
     attempt = attempt.lower()
-    if attempt in all_words and len(attempt) == 5:
+    if attempt in all_words and len(attempt) == n:
         return True
     elif attempt in all_words:
-        return 'Too short' if len(attempt) < 5 else 'Too long'
+        return 'Too short' if len(attempt) < n else 'Too long'
     else:
         return 'Not in dictionary'
 
@@ -56,33 +71,22 @@ def result(attempt, word):
         if sum(counts[0]) <= counts[1]:
             continue # no issues possible
         if sum(counts[0]) > counts[1]:
-            # print(f'issue with letter {letter}')
             # THERE IS AN ISSUE. This should not be possible.
             temp = list(out)
             diff = sum(counts[0]) - counts[1]
-            # print(f'diff of {diff}')
             word_indices = [i for i,l in enumerate(word) if l == letter]
             attempt_indices = [i for i,l in enumerate(attempt) if l == letter]
-            # print(word_indices)
-            # print(attempt_indices)
             # go backwards and remove relevant stuff
             pointer = len(attempt) - 1
             while diff > 0 and pointer >= 0:
-                # print(pointer, temp)
                 if pointer in attempt_indices:
                     if pointer not in word_indices:
                         temp[pointer] = '_'
                         diff -= 1
                 pointer -= 1
-            out = ''.join(temp)
-        
+            out = ''.join(temp)   
 
     return '  ' + out
-
-# attempt = 'TOOTS'
-# word =    'ALOOF'
-
-# print(result(attempt, word))
 
 def kb_render(used_letters, word, attempts):
     word = word.upper()
