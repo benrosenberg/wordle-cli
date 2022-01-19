@@ -2,4 +2,4 @@
 wordle puzzles in the command line. 
 
 ## todo
-[ ] variable-length games
+ - [ ] variable-length games
